@@ -1,0 +1,5 @@
+static/upload/*
+static/image/*
+static/video/*
+.idea
+*.pyc

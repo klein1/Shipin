@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shipin分享站</title>
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <style type="text/css">
+
+        body {
+
+            font: 14px/28px "微软雅黑";
+
+        }
+
+        .contact *:focus {
+            outline: none;
+        }
+
+        .contact {
+
+            width: 700px;
+
+            height: auto;
+
+            background: #f6f6f6;
+
+            margin: 40px auto;
+
+            padding: 10px;
+
+        }
+
+        .contact ul {
+
+            width: 650px;
+
+            margin: 0 auto;
+
+        }
+
+        .contact ul li {
+
+            border-bottom: 1px solid #dfdfdf;
+
+            list-style: none;
+
+            padding: 12px;
+
+        }
+
+        .contact ul li label {
+
+            width: 120px;
+
+            display: inline-block;
+
+            float: left;
+
+        }
+
+        .contact ul li input[type=text], .contact ul li input[type=password] {
+
+            width: 220px;
+
+            height: 25px;
+
+            border: 1px solid #aaa;
+
+            padding: 3px 8px;
+
+            border-radius: 5px;
+
+        }
+
+        .contact ul li input:focus {
+
+            border-color: #c00;
+
+        }
+
+        .contact ul li input[type=text] {
+
+            transition: padding .25s;
+
+            -o-transition: padding .25s;
+
+            -moz-transition: padding .25s;
+
+            -webkit-transition: padding .25s;
+
+        }
+
+        .contact ul li input[type=password] {
+
+            transition: padding .25s;
+
+            -o-transition: padding .25s;
+
+            -moz-transition: padding .25s;
+
+            -webkit-transition: padding .25s;
+
+        }
+
+        .contact ul li input:focus {
+
+            padding-right: 70px;
+
+        }
+
+        .btn {
+
+            position: relative;
+
+            left: 300px;
+
+        }
+
+        .tips {
+
+            color: rgba(0, 0, 0, 0.5);
+
+            padding-left: 10px;
+
+        }
+
+        .tips_true, .tips_false {
+
+            padding-left: 10px;
+
+        }
+
+        .tips_true {
+
+            color: green;
+
+        }
+
+        .tips_false {
+
+            color: red;
+
+        }
+
+    </style>
+    <script type="text/javascript">
+
+        function checkna() {
+
+            na = form.author.value;
+
+            if (na.length < 1 || na.length > 5) {
+
+                divname.innerHTML = '<font class="tips_false">长度是1~5个字符</font>';
+
+
+            } else {
+
+                divname.innerHTML = '<font class="tips_true">输入正确</font>';
+
+
+            }
+
+
+        }
+
+        function checkpsd1() {
+
+            na = form.title.value;
+
+            if (na.length < 1 || na.length > 20) {
+
+                divpd1.innerHTML = '<font class="tips_false">长度是1~20个字符</font>';
+
+
+            } else {
+
+                divpd1.innerHTML = '<font class="tips_true">输入正确</font>';
+
+
+            }
+
+
+        }
+
+        /*function checkpsd2() {
+
+            na = form.description.value;
+
+            if (na.length < 1 || na.length > 20) {
+
+                divpd2.innerHTML = '<font class="tips_false">长度是1~20个字符</font>';
+
+
+            } else {
+
+                divpd2.innerHTML = '<font class="tips_true">输入正确</font>';
+
+
+            }
+
+
+        }*/
+
+    </script>
+</head>
+<body>
+<div class="contact">
+    <div id="loading" style="width:100%;height:100%;text-align: center;display:none;">
+        <b style="margin-top: 30px">视频上传中，请勿关闭网页 ...</b>
+        <img src="/static/img/loading.gif" draggable="false" style="width:100%;height:100%;"/>
+    </div>
+    <form style="" name="form" method="post" action="{{ url_for('play.doupload') }}" enctype="multipart/form-data">
+        <a style="float:right" href="{{ url_for('play.index') }}">返回</a>
+        <ul>
+            <li>
+                <label>分享人：</label>
+                <input type="text" name="author" placeholder="请输入用户名" onblur="checkna()" required/><span class="tips"
+                                                                                                           id="divname">长度1~5个字符</span>
+            </li>
+            <li>
+                <label>标题：</label>
+                <input type="text" name="title" placeholder="请输入视频标题" onblur="checkpsd1()" required/><span
+                    class="tips" id="divpd1">长度1~20个字符</span>
+            </li>
+            <!--<li>
+                <label>描述：</label>
+                <input type="text" name="description" placeholder="请输入视频描述" onblur="checkpsd2()" required/><span
+                    class="tips" id="divpd2">长度1~20个字符</span>
+            </li>-->
+            <!--<li>
+                <label>附图：</label>
+                <input type="file" name="image" accept="image/*" required/>
+            </li>-->
+            <li>
+                <label>视频：</label>
+                <input type="file" name="video" accept="video/mp4" required/><span>请使用mp4格式</span>
+            </li>
+        </ul>
+        <b class="btn"><input type="submit" value="提交"/>
+            <input type="reset" value="取消"/></b>
+    </form>
+</div>
+<script src="/static/js/jquery-1.12.1.min.js"></script>
+<script>
+    $('form').submit(function(){
+        $("form").hide();
+        $('#loading').show();
+    });
+</script>
+</body>
+</html>

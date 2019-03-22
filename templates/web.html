@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/static/css/barrager.css?v=2">
+    <script type="text/javascript" src="/static/js/jquery-1.12.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/socket.io.min.js"></script>
+</head>
+<body>
+
+
+<script src="/static/js/jquery.barrager.min.js"></script>
+<script>
+
+</script>
+
+<script type="text/javascript">
+    var namespace = '/chat';
+    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
+
+    $('form#emit').submit(function (event) {
+        socket.emit('imessage', {data: $('#emit_data').val()});
+        return false;
+    });
+
+    socket.on('message', function (msg) {
+        $('body').barrager({'href':'#','info':$('<div/>').text(msg.data).html()});
+    });
+
+
+</script>
+</body>
+</html>
