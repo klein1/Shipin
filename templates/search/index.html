@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Shipin分享站</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="/static/css/search-form.css">
+    <style>
+        .search-wrapper {
+            position: absolute;
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            top: 10%;
+            left: 50%;
+        }
+
+        .content-wrapper {
+            position: absolute;
+            width: 1000px;
+            top: 200px;
+            left: calc((100% - 1000px) / 2);
+            height: 500px;
+            background-color: rgba(255, 255, 255, 0.8)
+        }
+
+        .block {
+            margin: 20px auto;
+            height: 300px;
+            width: 650px;
+        }
+
+        .block .left {
+            padding: 20px 0;
+            float: left
+        }
+
+        .block .right {
+            width: 350px;
+            float: right;
+            padding: 20px;
+        }
+
+        .block .title {
+            color: black;
+            -webkit-line-clamp: 2;
+            display: block;
+            max-height: 60px;
+            overflow: hidden;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 28px;
+            -webkit-box-orient: vertical;
+            text-overflow: ellipsis;
+            white-space: normal;
+            display: -webkit-box;
+            text-decoration: none;
+        }
+
+        .block .text {
+            color: #606060;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+<section class="container">
+    <form onsubmit="submitFn(this, event);">
+        <div class="search-wrapper">
+            <div class="input-holder">
+                <input type="text" class="search-input" placeholder="您要搜索的视频"/>
+                <button class="search-icon" onclick="searchToggle(this, event);"><span></span></button>
+            </div>
+            <span class="close" onclick="searchToggle(this, event);"></span>
+            <div class="result-container">
+            </div>
+        </div>
+    </form>
+
+    <div class="content-wrapper">
+        <div class="block">
+            <div class="left">
+                <img src="/static/img/pure.jpg" width="246" height="138" draggable="false"/>
+            </div>
+
+
+            <div class="right">
+                <a class="title" title="绝地求生：疯狂示爱女陪玩结果对方是变音器？看完这个视频后你还敢网恋吗" href="/watch?v=pqX4s1cdanI">
+                    绝地求生：疯狂示爱女陪玩结果对方是变音器？看完这个视频后你还敢网恋吗
+                </a>
+                <div class="text" style="margin-top: 10px">
+                    <span>吃鸡陪玩酱</span> •
+                    <span>441 次观看</span> •
+                    <span>2 小时前</span>
+                </div>
+                <div class="text" style="margin-top: 20px">
+                    還沒有訂閱的朋友記得按訂閱喔～感謝！
+                    已經訂閱的朋友也記得點小鈴鐺開啟通知，才能收到最新影片發行的通知唷～
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<script src="/static/js/jquery-1.12.1.min.js"></script>
+<script type="text/javascript">
+    function searchToggle(obj, evt) {
+        var container = $(obj).closest('.search-wrapper');
+
+        if (!container.hasClass('active')) {
+            container.addClass('active');
+            evt.preventDefault();
+        }
+        else if (container.hasClass('active') && $(obj).closest('.input-holder').length == 0) {
+            container.removeClass('active');
+            // clear input
+            container.find('.search-input').val('');
+            // clear and hide result container when we press close
+            container.find('.result-container').fadeOut(100, function () {
+                $(this).empty();
+            });
+        }
+    }
+
+    function submitFn(obj, evt) {
+        value = $(obj).find('.search-input').val().trim();
+
+        _html = "搜索结果加载中，请稍后 ...";
+        if (!value.length) {
+            _html = "请输入搜索内容";
+        }
+        /*else {
+         _html += "<b>" + value + "</b>";
+         }*/
+
+        $(obj).find('.result-container').html('<span>' + _html + '</span>');
+        $(obj).find('.result-container').fadeIn(100);
+
+        evt.preventDefault();
+
+        if (value.length) {
+
+        }
+    }
+</script>
+</body>
+</html>

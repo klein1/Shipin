@@ -2,6 +2,7 @@ from flask import *
 from flask_socketio import SocketIO
 from blueprint import play
 from blueprint import rch
+from blueprint import search
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'df$gnd@fg#$0#hao'
@@ -18,6 +19,7 @@ def test():
 
 app.register_blueprint(play.bp)
 app.register_blueprint(rch.bp)
+app.register_blueprint(search.bp)
 
 namespace = "/comment"
 socketio = SocketIO(app)
