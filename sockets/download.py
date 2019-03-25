@@ -39,26 +39,25 @@ def register_download(socketio):
                 result = json.loads(res.text)
             except (ValueError, SSLError):
                 print('error')
-                return False
+                return "error "
         vurl = result['url']
         print(u"正在下载：%s" % id)
 
-        while (True):
-            try:
-                r = requests.get(vurl)
-                break
-            except SSLError:
-                r = requests.get(vurl)
-            except MissingSchema:
-                print('error')
+        try:
+            r = requests.get(vurl)
+        except SSLError:
+            r = requests.get(vurl)
+        except MissingSchema:
+            print('error')
 
         try:
             if not os.path.exists(file):
                 with open(file, 'wb') as f:
                     f.write(r.content)
+                print(u"下载完成：%s" % id)
+
+            return '/' + path + '/' + id + '.mp4'
         except IOError:
             print('error')
 
-        print(u"下载完成：%s" % id)
-
-        return '/' + path + '/' + id + '.mp4'
+        return 'error'

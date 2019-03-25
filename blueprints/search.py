@@ -6,7 +6,7 @@ bp = Blueprint('search', __name__, url_prefix="/search")
 
 @bp.route('/')
 def index():
-    return render_template("search/index.html")
+    return render_template("search/default.html")
 
 @bp.route('/<keyword>/<int:page>', methods=['GET'])
 def search(keyword, page):
