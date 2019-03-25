@@ -115,6 +115,10 @@
         .page.disable {
             background-color: gray !important;
         }
+
+        svg{
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -139,7 +143,7 @@
                 <img src="{{ item.img }}" width="246" height="138"/>
             </div>
             <div class="right">
-                <a class="title" title="{{ item.title }}" href="/search/watch/{{ item.id }}">
+                <a class="title" title="{{ item.title }}" target="_blank" href="/search/watch/{{ item.id }}">
                     {{ item.title }}
                 </a>
                 <div class="middle">
@@ -176,6 +180,8 @@
     {% endif %}
 
 </section>
+
+{% include 'example/svg_loading.html' %}
 
 <script src="/static/js/jquery-1.12.1.min.js"></script>
 <script type="text/javascript">
@@ -225,6 +231,7 @@
 
     function jump(url) {
         $('.layer').show();
+        $('svg').show();
         location.href = url;
     }
 </script>

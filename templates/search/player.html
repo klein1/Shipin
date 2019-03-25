@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Shipin分享站</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="/static/css/common.css?v=1">
+    <script src="/static/js/jquery-1.12.1.min.js"></script>
+    <style>
+        .video_b_in {
+            width: 830px !important;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="videos" style="display: none">
+    <div class="video_b" style="margin-top:0;">
+        <div class="video_b_in">
+            {% include 'video.html' %}
+        </div>
+    </div>
+</div>
+
+{% include 'example/css_loading.html' %}
+
+<script>
+    $(document).ready(function () {
+        var namespace = '/download';
+        var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
+
+        socket.emit('imessage', {data: encodeURI("{{ id }}")});
+
+        socket.on('message', function (msg) {
+            $('.videos').show();
+            $('.loader').hide();
+            vids.src = decodeURI(msg.data);
+            vids.play();
+        });
+    });
+</script>
+</body>
+</html>

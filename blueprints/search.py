@@ -1,7 +1,6 @@
 from flask import *
 import requests, re, json
-from requests.exceptions import ConnectTimeout, ConnectionError, ReadTimeout, SSLError, MissingSchema, \
-    ChunkedEncodingError
+
 
 bp = Blueprint('search', __name__, url_prefix="/search")
 
@@ -19,8 +18,10 @@ def search(keyword, page):
     }
     url = "https://www.youtube.com/results?search_query=" + keyword + "&page=" + str(page)
     try:
+        requests.get('https://www.google.com', headers=headers)
         html = requests.get(url, headers=headers).text
-    except (ConnectTimeout, ConnectionError):
+    # except (ConnectTimeout, ConnectionError):
+    except Exception as e:
         msg = u"网络错误，请确保科学上网"
         return render_template('search/index.html', message=msg, returnNo=returnNo, data=result, keyword=keyword, page=page)
 
@@ -62,4 +63,5 @@ def search(keyword, page):
 
 @bp.route('/watch/<id>', methods=['GET'])
 def watch(id):
-    return render_template('search/video.html')
+    return render_template('search/player.html', id = id)
+

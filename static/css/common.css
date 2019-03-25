@@ -13,12 +13,12 @@
     user-select: none
 }
 
-img {
+/*img {
     display: block;
     outline: 0;
     border: 0;
     box-shadow: none
-}
+}*/
 
 .hidden {
     overflow: hidden
