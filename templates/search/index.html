@@ -143,13 +143,12 @@
                 <img src="{{ item.img }}" width="246" height="138"/>
             </div>
             <div class="right">
-                <a class="title" title="{{ item.title }}" target="_blank" href="/search/watch/{{ item.id }}">
+{#                <a class="title" title="{{ item.title }}" href="/search/watch/{{ item.id }}">#}
+                <a class="title" title="{{ item.title }}" href="javascript:void(0)" onclick="watch($(this))" data-id="{{ item.id }}">
                     {{ item.title }}
                 </a>
                 <div class="middle">
-                    {% if item.linetext %}<span>{{ item.linetext }}</span> •{% endif %}
-                    {% if item.viewcount %}<span>{{ item.viewcount }}</span> •{% endif %}
-                    {% if item.publishtime %}<span>{{ item.publishtime }}</span>{% endif %}
+                    {% if item.linetext %}<span>{{ item.linetext }} • </span>{% endif %}{% if item.viewcount %}<span>{{ item.viewcount }} • </span>{% endif %}{% if item.publishtime %}<span>{{ item.publishtime }}</span>{% endif %}
                 </div>
                 <div class="bottom" title="{{ item.description }}">
                     {% if item.description %}{{ item.description }}{% else %}最新{% endif %}
@@ -233,6 +232,32 @@
         $('.layer').show();
         $('svg').show();
         location.href = url;
+    }
+
+    function watch(sel){
+        var id = sel.data('id');
+        var name = sel.text().trim();
+        var info = sel.next().text().trim().replace('\n','');
+        var img = sel.parents('.block').find('img').attr('src').trim();
+
+        if(Storage != undefined){
+            var json;
+            var data = {'name':name,'info':info,'img':img};
+            if(localStorage.musicList != undefined){
+                 json = JSON.parse(localStorage.musicList);
+                 if(!json.hasOwnProperty(id))
+                     json[id] = data;
+            }
+            else{
+                json = {};
+                json[id] = data;
+            }
+
+            localStorage.musicList = JSON.stringify(json)
+        }
+        console.log(name + ',' + info + ',' + img);
+
+        window.open('/search/watch/' + id);
     }
 </script>
 </body>

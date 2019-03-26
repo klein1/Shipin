@@ -7,18 +7,35 @@
     <link rel="stylesheet" type="text/css" href="/static/css/common.css?v=1">
     <script src="/static/js/jquery-1.12.1.min.js"></script>
     <style>
-        .video_b_in {
+        {#.video_b_in {
             width: 830px !important;
+        }#}
+
+        .one_tb_l {
+            width: 20px !important;
+        }
+
+        .one_tb_r {
+            width: 280px !important;
         }
 
     </style>
 </head>
 <body>
 
-<div class="videos" style="display: none">
+<div class="videos" style="">
     <div class="video_b" style="margin-top:0;">
         <div class="video_b_in">
             {% include 'video.html' %}
+
+            <div class="video_rs">
+
+                <div class="video_rs_t">
+                    <span>搜索历史</span>
+                </div>
+
+                <div class="video_rs_b"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -33,12 +50,52 @@
         socket.emit('imessage', {data: encodeURI("{{ id }}")});
 
         socket.on('message', function (msg) {
-            $('.videos').show();
-            $('.loader').hide();
-            vids.src = decodeURI(msg.data);
-            vids.play();
+            if (msg.data != "error") {
+                if (Storage != undefined && localStorage.musicList != undefined)
+                    initHistories();
+            }
+            if(!vids.src){
+                $('.loader').hide();
+                if(msg.data != "error"){
+                    vids.src = decodeURI(msg.file);
+                    vids.play();
+                }
+                else{
+                    alert("网络错误，请刷新重试");
+                }
+            }
         });
+
+        initHistories();
     });
+
+    $(".video_rs_b").delegate('.one_tb','click',function () {
+        location.href= '/search/watch/' + $(this).attr("vid_src");
+    });
+
+    function initHistories() {
+        if (Storage != undefined && localStorage.musicList != undefined) {
+            $('.video_rs_b').empty();
+            var list = JSON.parse(localStorage.musicList);
+            for (id in list) {
+                {#console.log(list[id].name)#}
+                if(id == "{{ id }}"){
+                    $(".title_top").html(list[id].name);
+                }
+                $('.video_rs_b').append('<div class="one_tb '+ (id == "{{ id }}"?"on":"") +'" vid_src="' + id + '">\n' +
+                    '                        <span class="one_tb_l"></span>\n' +
+                    '                        <div class="one_tb_c">\n' +
+                    '                            <img src="' + list[id].img + '">\n' +
+                    '                            <b></b>\n' +
+                    '                        </div>\n' +
+                    '                        <div class="one_tb_r">\n' +
+                    '                            <h3 title="' + list[id].name + '">' + list[id].name + '</h3>\n' +
+                    '                            <p title="' + list[id].info + '">' + list[id].info + '</p>\n' +
+                    '                        </div>\n' +
+                    '                    </div>');
+            }
+        }
+    }
 </script>
 </body>
 </html>

@@ -5,7 +5,7 @@ from requests.exceptions import ConnectTimeout,ConnectionError,ReadTimeout,SSLEr
 import subprocess
 import youtube_dl
 import time
-
+from pytube import YouTube
 import os
 logger = logging.getLogger("AppName")
 # 查询视频信息语句
@@ -22,9 +22,10 @@ def download_by_url(url):
     print("********\tStart download:" + url + "\t" + time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(start)))
     while True:
         line = p.stdout.readline()
-        print(line)
+        # print(line)
         if not line == '':
-            print(line.decode('gbk').strip('\n'))
+            pass
+            # print(line.decode('gbk').strip('\n'))
         else:
             break
     p.wait()
@@ -86,6 +87,7 @@ def downlaod(url, name ,path):
 
 if __name__ == '__main__':
      # download('https://www.youtube.com/watch?v=a3MlEeNwvtk')
-     # download_by_url('https://www.youtube.com/watch?v=a3MlEeNwvtk')
+     # download_by_url('https://www.youtube.com/watch?v=dOSFOjYjWbo')
      # YouTube('https://www.youtube.com/watch?v=a3MlEeNwvtk').streams.first().download()
-     downlaod('https://www.youtube.com/watch?v=a3MlEeNwvtk','123','./')
+     # downlaod('https://www.youtube.com/watch?v=dOSFOjYjWbo','dOSFOjYjWbo','./')
+     YouTube('https://www.youtube.com/watch?v=dOSFOjYjWbo').streams.first().download('../../static/video/search')
