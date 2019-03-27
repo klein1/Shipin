@@ -1,5 +1,6 @@
 from requests.exceptions import ConnectTimeout, ConnectionError, ReadTimeout, SSLError, MissingSchema, ChunkedEncodingError
 import os, random, requests, re, json
+from urllib import parse
 
 loading_set = set()
 
@@ -9,19 +10,21 @@ def register_download(socketio):
     @socketio.on('imessage', namespace=namespace)
     def test_message(message):
         id = message["data"]
+        name = parse.unquote(message["name"])
         path = 'static/video/search'
-        if os.path.exists(path + '/' + id + '.mp4'):
-            file = '/' + path + '/' + id + '.mp4'
+
+        if os.path.exists(path + '/' + name + '.mp4'):
+            file = '/' + path + '/' + name + '.mp4'
         else:
-            if id not in loading_set:
-                loading_set.add(id)
-                file = download(path, id)
+            if name not in loading_set:
+                loading_set.add(name)
+                file = download(path, id, name)
             else:
                 file = ""
         if file:
-            socketio.emit('message', {'file': file}, namespace=namespace)
+            socketio.emit('message', {'file': file,'name':name}, namespace=namespace)
 
-    def download(path, id):
+    def download(path, id, name):
         try:
             url = 'https://www.youtube.com/watch?v=' + id
             urlhash = "https://weibomiaopai.com/"
@@ -33,13 +36,13 @@ def register_download(socketio):
                     html = requests.get(urlhash).text
                 except SSLError:
                     print('step1 error')
-                    loading_set.remove(id)
+                    loading_set.remove(name)
                     return "error"
             reg = re.compile(r'var hash="(.*?)"', re.S)
             result = reg.findall(html)
             hash_v = result[0]
 
-            file = os.path.join(path, '%s' + ".mp4") % id
+            file = os.path.join(path, '%s' + ".mp4") % name
             api = "https://steakovercooked.com/api/video/?cached&hash=" + hash_v + "&video=" + url
             api2 = "https://helloacm.com/api/video/?cached&hash=" + hash_v + "&video=" + url
             try:
@@ -51,10 +54,10 @@ def register_download(socketio):
                     result = json.loads(res.text)
                 except (ValueError, SSLError):
                     print('step2 error')
-                    loading_set.remove(id)
+                    loading_set.remove(name)
                     return "error"
             vurl = result['url']
-            print(u"正在下载：%s" % id)
+            print(u"正在下载：%s" % name)
 
             try:
                 r = requests.get(vurl)
@@ -63,27 +66,27 @@ def register_download(socketio):
                     r = requests.get(vurl)
                 except SSLError:
                     print('step3.1 error')
-                    loading_set.remove(id)
+                    loading_set.remove(name)
                     return "error"
             except MissingSchema:
                 print('step3.2 error')
-                loading_set.remove(id)
+                loading_set.remove(name)
                 return "error"
 
             try:
                 if not os.path.exists(file):
                     with open(file, 'wb') as f:
                         f.write(r.content)
-                    print(u"下载完成：%s" % id)
+                    print(u"下载完成：%s" % name)
 
-                loading_set.remove(id)
-                return '/' + path + '/' + id + '.mp4'
+                loading_set.remove(name)
+                return '/' + path + '/' + name + '.mp4'
             except IOError:
                 print('step4 error')
-                loading_set.remove(id)
+                loading_set.remove(name)
                 return "error"
 
         except Exception as e:
             print(e)
-            loading_set.remove(id)
+            loading_set.remove(name)
             return "error"

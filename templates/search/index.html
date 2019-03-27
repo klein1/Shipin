@@ -143,7 +143,7 @@
                 <img src="{{ item.img }}" width="246" height="138"/>
             </div>
             <div class="right">
-{#                <a class="title" title="{{ item.title }}" href="/search/watch/{{ item.id }}">#}
+                <!--<a class="title" title="{{ item.title }}" href="/search/watch/{{ item.id }}">-->
                 <a class="title" title="{{ item.title }}" href="javascript:void(0)" onclick="watch($(this))" data-id="{{ item.id }}">
                     {{ item.title }}
                 </a>
@@ -242,22 +242,22 @@
 
         if(Storage != undefined){
             var json;
-            var data = {'name':name,'info':info,'img':img};
+            var data = {'id':id,'info':info,'img':img};
             if(localStorage.musicList != undefined){
                  json = JSON.parse(localStorage.musicList);
-                 if(!json.hasOwnProperty(id))
-                     json[id] = data;
+//                 if(!json.hasOwnProperty(id))
+                     json[name] = data;
             }
             else{
                 json = {};
-                json[id] = data;
+                json[name] = data;
             }
 
             localStorage.musicList = JSON.stringify(json)
         }
         console.log(name + ',' + info + ',' + img);
 
-        window.open('/search/watch/' + id);
+        window.open('/search/watch/' + id + '/' +name);
     }
 </script>
 </body>

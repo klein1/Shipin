@@ -7,9 +7,9 @@
     <link rel="stylesheet" type="text/css" href="/static/css/common.css?v=1">
     <script src="/static/js/jquery-1.12.1.min.js"></script>
     <style>
-        {#.video_b_in {
+       /* .video_b_in {
             width: 830px !important;
-        }#}
+        }*/
 
         .one_tb_l {
             width: 20px !important;
@@ -47,14 +47,14 @@
         var namespace = '/download';
         var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
 
-        socket.emit('imessage', {data: encodeURI("{{ id }}")});
+        socket.emit('imessage', {data: encodeURI("{{ id }}"), name : encodeURI("{{ name }}")});
 
         socket.on('message', function (msg) {
             if (msg.data != "error") {
                 if (Storage != undefined && localStorage.musicList != undefined)
                     initHistories();
             }
-            if(!vids.src){
+            if("{{ name }}" == msg.name && !vids.src){
                 $('.loader').hide();
                 if(msg.data != "error"){
                     vids.src = decodeURI(msg.file);
@@ -70,27 +70,27 @@
     });
 
     $(".video_rs_b").delegate('.one_tb','click',function () {
-        location.href= '/search/watch/' + $(this).attr("vid_src");
+        location.href= '/search/watch/' + $(this).attr("vid_src") + '/' + $(this).find('h3').text();
     });
 
     function initHistories() {
         if (Storage != undefined && localStorage.musicList != undefined) {
             $('.video_rs_b').empty();
             var list = JSON.parse(localStorage.musicList);
-            for (id in list) {
-                {#console.log(list[id].name)#}
-                if(id == "{{ id }}"){
-                    $(".title_top").html(list[id].name);
+            for (name in list) {
+//                console.log(list[id].name)
+                if(name == "{{ name }}"){
+                    $(".title_top").html(name);
                 }
-                $('.video_rs_b').append('<div class="one_tb '+ (id == "{{ id }}"?"on":"") +'" vid_src="' + id + '">\n' +
+                $('.video_rs_b').append('<div class="one_tb '+ (name == "{{ name }}"?"on":"") +'" vid_src="' + list[name].id + '">\n' +
                     '                        <span class="one_tb_l"></span>\n' +
                     '                        <div class="one_tb_c">\n' +
-                    '                            <img src="' + list[id].img + '">\n' +
+                    '                            <img src="' + list[name].img + '">\n' +
                     '                            <b></b>\n' +
                     '                        </div>\n' +
                     '                        <div class="one_tb_r">\n' +
-                    '                            <h3 title="' + list[id].name + '">' + list[id].name + '</h3>\n' +
-                    '                            <p title="' + list[id].info + '">' + list[id].info + '</p>\n' +
+                    '                            <h3 title="' + name + '">' + name + '</h3>\n' +
+                    '                            <p title="' + list[name].info + '">' + list[name].info + '</p>\n' +
                     '                        </div>\n' +
                     '                    </div>');
             }
