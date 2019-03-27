@@ -17,10 +17,9 @@ try:
 except Exception as e:
     print('error:',e)
 
-import urllib.request
-
-proxy = urllib.request.ProxyHandler({'http': 'www.google.com:1'})
-auth = urllib.request.HTTPBasicAuthHandler()
-opener = urllib.request.build_opener(proxy, auth, urllib.request.HTTPHandler)
-urllib.request.install_opener(opener)
-print(urllib.request.urlopen("https://www.baidu.com/").read())
+# import urllib.request
+# proxy = urllib.request.ProxyHandler({'http': 'www.google.com:1'})
+# auth = urllib.request.HTTPBasicAuthHandler()
+# opener = urllib.request.build_opener(proxy, auth, urllib.request.HTTPHandler)
+# urllib.request.install_opener(opener)
+# print(urllib.request.urlopen("https://www.baidu.com/").read())
