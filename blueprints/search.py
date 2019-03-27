@@ -61,7 +61,7 @@ def search(keyword, page):
 
     return render_template('search/index.html',message=msg,returnNo=returnNo,data=result, keyword=keyword, page=page)
 
-@bp.route('/watch/<id>/<name>', methods=['GET'])
+@bp.route('/watch/<id>/<path:name>', methods=['GET'])
 def watch(id,name):
     return render_template('search/player.html', id = id, name = name)
 

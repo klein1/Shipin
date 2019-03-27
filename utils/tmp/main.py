@@ -1,3 +1,4 @@
+
 try:
     fh = open("a/testfile", "w")
     fh.write("这是一个测试文件，用于测试异常!!")
@@ -9,3 +10,8 @@ else:
     fh.close()
 
 print('over')
+
+import re
+originName = "a*b?c"
+rightName = re.sub('[\/:*?"<>|]','', originName)
+print(rightName)

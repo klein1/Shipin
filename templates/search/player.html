@@ -82,7 +82,7 @@
                 if(name == "{{ name }}"){
                     $(".title_top").html(name);
                 }
-                $('.video_rs_b').append('<div class="one_tb '+ (name == "{{ name }}"?"on":"") +'" vid_src="' + list[name].id + '">\n' +
+                $('.video_rs_b').prepend('<div class="one_tb '+ (name == "{{ name }}"?"on":"") +'" vid_src="' + list[name].id + '">\n' +
                     '                        <span class="one_tb_l"></span>\n' +
                     '                        <div class="one_tb_c">\n' +
                     '                            <img src="' + list[name].img + '">\n' +

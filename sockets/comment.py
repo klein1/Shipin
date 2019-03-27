@@ -8,7 +8,7 @@ def register_comment(socketio):
     @socketio.on('connect', namespace=namespace)
     def connected_msg():
         """socket client event - connected"""
-        socketio.emit('message', {'data': '系统消息：欢迎进入！！！'}, broadcast=True, namespace=namespace)
+        # socketio.emit('message', {'data': '系统消息：欢迎进入！！！'}, namespace=namespace)
         print('client connected!')
 
     @socketio.on('disconnect', namespace=namespace)

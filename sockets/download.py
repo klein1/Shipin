@@ -11,14 +11,15 @@ def register_download(socketio):
     def test_message(message):
         id = message["data"]
         name = parse.unquote(message["name"])
+        rename = re.sub('[\/:*?"<>|]',' ', name)
         path = 'static/video/search'
 
-        if os.path.exists(path + '/' + name + '.mp4'):
-            file = '/' + path + '/' + name + '.mp4'
+        if os.path.exists(path + '/' + rename + '.mp4'):
+            file = '/' + path + '/' + rename + '.mp4'
         else:
-            if name not in loading_set:
-                loading_set.add(name)
-                file = download(path, id, name)
+            if rename not in loading_set:
+                loading_set.add(rename)
+                file = download(path, id, rename)
             else:
                 file = ""
         if file:
