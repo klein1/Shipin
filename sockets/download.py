@@ -5,6 +5,9 @@ from urllib import parse
 loading_set = set()
 
 def register_download(socketio):
+    headers = {
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36'
+    }
     namespace = "/download"
 
     @socketio.on('imessage', namespace=namespace)
@@ -30,11 +33,11 @@ def register_download(socketio):
             url = 'https://www.youtube.com/watch?v=' + id
             urlhash = "https://weibomiaopai.com/"
             try:
-                html = requests.get(urlhash).text
+                html = requests.get(urlhash, headers=headers).text
             except SSLError:
                 print(u"网络不稳定 正在重试")
                 try:
-                    html = requests.get(urlhash).text
+                    html = requests.get(urlhash, headers=headers).text
                 except SSLError:
                     print('step1 error')
                     loading_set.remove(name)
@@ -47,11 +50,11 @@ def register_download(socketio):
             api = "https://steakovercooked.com/api/video/?cached&hash=" + hash_v + "&video=" + url
             api2 = "https://helloacm.com/api/video/?cached&hash=" + hash_v + "&video=" + url
             try:
-                res = requests.get(api)
+                res = requests.get(api, headers=headers)
                 result = json.loads(res.text)
             except (ValueError, SSLError):
                 try:
-                    res = requests.get(api2)
+                    res = requests.get(api2, headers=headers)
                     result = json.loads(res.text)
                 except (ValueError, SSLError):
                     print('step2 error')
@@ -61,10 +64,10 @@ def register_download(socketio):
             print(u"正在下载：%s" % name)
 
             try:
-                r = requests.get(vurl)
+                r = requests.get(vurl, headers=headers)
             except SSLError:
                 try:
-                    r = requests.get(vurl)
+                    r = requests.get(vurl, headers=headers)
                 except SSLError:
                     print('step3.1 error')
                     loading_set.remove(name)

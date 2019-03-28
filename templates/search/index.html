@@ -140,7 +140,7 @@
         {% for item in data %}
         <div class="block">
             <div class="left">
-                <img src="{{ item.img }}" width="246" height="138"/>
+                <img src="none" width="246" height="138" data-src="{{ item.img }}"/>
             </div>
             <div class="right">
                 <!--<a class="title" title="{{ item.title }}" href="/search/watch/{{ item.id }}">-->
@@ -187,6 +187,26 @@
     $(document).ready(function () {
         $('.search-icon').click();
         $('.search-input').val("{{ keyword }}");
+
+        $("img").on("error",function(){
+            var that = $(this);
+            var src = $(this).data('src');
+//            console.log(src);
+            $.ajax({
+            type:"POST",
+            url:"/search/img",
+            data: {
+                url : src
+            },
+            dataType:"json",
+            success:function(result){
+                that.attr('src',result.data);
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                console.log("图片加载失败：" + src);
+            }
+        });
+        });
     });
 
     function searchToggle(obj, evt) {
@@ -224,7 +244,7 @@
         evt.preventDefault();
 
         if (value.length) {
-            jump('/search/' + value + '/1');
+            jump('/list/search/' + value + '/1');
         }
     }
 

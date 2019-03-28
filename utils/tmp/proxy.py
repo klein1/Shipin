@@ -11,11 +11,15 @@ proxy_dict = {
     "https:":'117.68.192.78:18118'
 }
 try:
-    html = requests.get(url, headers=headers).text
+    # html = requests.get(url, headers=headers).text
 
-    print(html)
+    # print(html)
+    pass
 except Exception as e:
     print('error:',e)
+
+import urllib.parse, base64
+from PIL import Image
 
 # import urllib.request
 # proxy = urllib.request.ProxyHandler({'http': 'www.google.com:1'})
@@ -23,3 +27,12 @@ except Exception as e:
 # opener = urllib.request.build_opener(proxy, auth, urllib.request.HTTPHandler)
 # urllib.request.install_opener(opener)
 # print(urllib.request.urlopen("https://www.baidu.com/").read())
+
+img = requests.get('https://i.ytimg.com/vi/3zNKzFuPxtU/hqdefault.jpg?sqp=-oaymwEYCKgBEF5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBLYMfKV6gM-W_cp2v59sjxSjkYLA').content
+print(img)
+print(base64.b64encode(img))
+print(bytes.decode(base64.b64encode(img)))
+# print(urllib.parse.quote(img))
+
+# img = Image.open('a.jpg')
+# print(img)
