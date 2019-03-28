@@ -1,9 +1,11 @@
+from flask_socketio import emit
+
 def register_comment(socketio):
     namespace = "/comment"
 
     @socketio.on('imessage', namespace=namespace)
     def test_message(message):
-        socketio.emit('message', {'data': message['data']}, broadcast=True, namespace=namespace)
+        emit('message', {'data': message['data']}, broadcast=True, namespace=namespace)
 
     @socketio.on('connect', namespace=namespace)
     def connected_msg():

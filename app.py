@@ -12,8 +12,8 @@ app.config['SECRET_KEY'] = 'df$gnd@fg#$0#hao'
 def index():
     return redirect(url_for("play.index"))
 
-@app.route('/test')
-def test():
+@app.route('/main')
+def main():
     return render_template("web.html")
 
 app.register_blueprint(play.bp)

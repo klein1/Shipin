@@ -1,6 +1,7 @@
 from requests.exceptions import ConnectTimeout, ConnectionError, ReadTimeout, SSLError, MissingSchema, ChunkedEncodingError
 import os, random, requests, re, json
 from urllib import parse
+from flask_socketio import emit
 
 loading_set = set()
 
@@ -26,7 +27,7 @@ def register_download(socketio):
             else:
                 file = ""
         if file:
-            socketio.emit('message', {'file': file,'name':name}, namespace=namespace)
+            emit('message', {'file': file,'name':name}, namespace=namespace)
 
     def download(path, id, name):
         try:

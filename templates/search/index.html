@@ -116,7 +116,7 @@
             background-color: gray !important;
         }
 
-        svg{
+        svg {
             display: none;
         }
     </style>
@@ -144,11 +144,13 @@
             </div>
             <div class="right">
                 <!--<a class="title" title="{{ item.title }}" href="/search/watch/{{ item.id }}">-->
-                <a class="title" title="{{ item.title }}" href="javascript:void(0)" onclick="watch($(this))" data-id="{{ item.id }}">
+                <a class="title" title="{{ item.title }}" href="javascript:void(0)" onclick="watch($(this))"
+                   data-id="{{ item.id }}">
                     {{ item.title }}
                 </a>
                 <div class="middle">
-                    {% if item.linetext %}<span>{{ item.linetext }} • </span>{% endif %}{% if item.viewcount %}<span>{{ item.viewcount }} • </span>{% endif %}{% if item.publishtime %}<span>{{ item.publishtime }}</span>{% endif %}
+                    {% if item.linetext %}<span>{{ item.linetext }} • </span>{% endif %}{% if item.viewcount %}<span>{{ item.viewcount }} • </span>{%
+                    endif %}{% if item.publishtime %}<span>{{ item.publishtime }}</span>{% endif %}
                 </div>
                 <div class="bottom" title="{{ item.description }}">
                     {% if item.description %}{{ item.description }}{% else %}最新{% endif %}
@@ -188,26 +190,30 @@
         $('.search-icon').click();
         $('.search-input').val("{{ keyword }}");
 
-        $("img").on("error",function(){
-            var that = $(this);
+        $("img").on("error", function () {
             var src = $(this).data('src');
 //            console.log(src);
-            $.ajax({
-            type:"POST",
-            url:"/search/img",
-            data: {
-                url : src
-            },
-            dataType:"json",
-            success:function(result){
-                that.attr('src',result.data);
-            },
-            error:function(XMLHttpRequest, textStatus, errorThrown){
-                console.log("图片加载失败：" + src);
-            }
-        });
+            loadImg($(this),src);
+
         });
     });
+
+    function loadImg(sel,src){
+        $.ajax({
+                type: "POST",
+                url: "/search/img",
+                data: {
+                    url: src
+                },
+                dataType: "json",
+                success: function (result) {
+                    sel.attr('src', result.data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("图片加载失败：" + src);
+                }
+            });
+    }
 
     function searchToggle(obj, evt) {
         var container = $(obj).closest('.search-wrapper');
@@ -254,21 +260,26 @@
         location.href = url;
     }
 
-    function watch(sel){
+    function watch(sel) {
         var id = sel.data('id');
         var name = sel.text().trim();
-        var info = sel.next().text().trim().replace('\n','');
+        var info = sel.next().text().trim().replace('\n', '');
         var img = sel.parents('.block').find('img').attr('src').trim();
+        if (img == "null"){
+             img =  sel.parents('.block').find('img').data('src');
+//             var src = sel.parents('.block').find('img').data('src');
+//             loadImg(sel.parents('.block').find('img'),src);
+        }
 
-        if(Storage != undefined){
+        if (Storage != undefined) {
             var json;
-            var data = {'id':id,'info':info,'img':img};
-            if(localStorage.musicList != undefined){
-                 json = JSON.parse(localStorage.musicList);
+            var data = {'id': id, 'info': info, 'img': img};
+            if (localStorage.musicList != undefined) {
+                json = JSON.parse(localStorage.musicList);
 //                 if(!json.hasOwnProperty(id))
-                     json[name] = data;
+                json[name] = data;
             }
-            else{
+            else {
                 json = {};
                 json[name] = data;
             }
@@ -277,7 +288,7 @@
         }
         console.log(name + ',' + info + ',' + img);
 
-        window.open('/search/watch/' + id + '/' +name);
+        window.open('/search/watch/' + id + '/' + name);
     }
 </script>
 </body>
