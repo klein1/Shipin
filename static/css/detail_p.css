@@ -79,7 +79,7 @@
     opacity: 0
 }
 
-.list_right {
+/*.list_right {
     width: 20px;
     height: auto;
     overflow: hidden;
@@ -89,17 +89,17 @@
     transition: .5s;
     transition-delay: .3s;
     opacity: 0
-}
+}*/
 
 .video_ls:hover .title_top {
     opacity: 1;
     top: 36px
 }
 
-.video_ls:hover .list_right {
+/*.video_ls:hover .list_right {
     opacity: 1;
     right: 30px
-}
+}*/
 
 .list_right a {
     display: block;

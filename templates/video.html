@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="/static/css/detail_p.css?v=3">
+<link rel="stylesheet" type="text/css" href="/static/css/detail_p.css?v=5">
 <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_u4qz1594lnixusor.css">
 <link rel="stylesheet" type="text/css" href="/static/css/barrager.css">
 <div class="video_ls">
@@ -83,6 +83,16 @@
 
         socket.on('message', function (msg) {
             $('body').barrager({'href': '#', 'info': $('<div/>').text(decodeURI(msg.data)).html()});
+        });
+
+        $(".video_ls").mouseleave(function(){
+            setTimeout(function(){
+                $('.controls').fadeOut('slow');
+            },3000);
+        });
+
+        $(".video_ls").mouseover(function(){
+            $('.controls').fadeIn();
         });
 
 
