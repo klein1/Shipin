@@ -85,15 +85,32 @@
             $('body').barrager({'href': '#', 'info': $('<div/>').text(decodeURI(msg.data)).html()});
         });
 
-        $(".video_ls").mouseleave(function(){
-            setTimeout(function(){
+        var timer;
+        function hide_tools(){
+            timer = setTimeout(function () {
                 $('.controls').fadeOut('slow');
-            },3000);
+            }, 3000);
+        }
+
+        $(".video_ls").mouseleave(function () {
+            hide_tools();
         });
 
-        $(".video_ls").mouseover(function(){
+        $(".video_ls").mousemove(function () {
+            clearTimeout(timer);
             $('.controls').fadeIn();
+            hide_tools();
         });
+
+        /*var timer;
+        $(".video_ls").hover(function () {
+            clearTimeout(timer);
+            $('.controls').fadeIn();
+        }, function () {
+             timer = setTimeout(function () {
+                $('.controls').fadeOut('slow');
+            }, 3000);
+        });*/
 
 
         /*获取控制对象*/
@@ -198,11 +215,13 @@
                     vids.currentTime = cTime3;
                     $("#nTime").html(cTime4);
                     timer && clearTimeout(timer);
-                    timer =setTimeout(function(){vids.play();},1000);
+                    timer = setTimeout(function () {
+                        vids.play();
+                    }, 1000);
                 });
                 /*$("#pBar_move").on('mouseup', function () {
-                    vids.play();
-                });*/
+                 vids.play();
+                 });*/
                 /*拖拽结束*/
                 /*----------------------------------鼠标松开----------------------------------------*/
                 $("body").on('mouseup', function () {
@@ -270,21 +289,21 @@
             }
         });
         /*/!*收藏*!/
-        $("#like").click(function () {
-            if ($(this).hasClass("on")) {
-                $(this).removeClass("on")
-            } else {
-                $(this).addClass("on")
-            }
-        })
-        /!*点赞*!/
-        $("#zan").click(function () {
-            if ($(this).hasClass("on")) {
-                $(this).removeClass("on")
-            } else {
-                $(this).addClass("on")
-            }
-        })*/
+         $("#like").click(function () {
+         if ($(this).hasClass("on")) {
+         $(this).removeClass("on")
+         } else {
+         $(this).addClass("on")
+         }
+         })
+         /!*点赞*!/
+         $("#zan").click(function () {
+         if ($(this).hasClass("on")) {
+         $(this).removeClass("on")
+         } else {
+         $(this).addClass("on")
+         }
+         })*/
         /*音量加减*/
         vBtn.onmousedown = function (ev) {
             var ev = ev || window.event;
@@ -302,10 +321,10 @@
                 vids.volume = prop;
                 //静音改变音量图标
                 /*if (!vids.volume) {
-                    icon.style.backgroundImage = "url(images/iconb.png)"
-                } else {
-                    icon.style.backgroundImage = "url(images/icona.png)"
-                }*/
+                 icon.style.backgroundImage = "url(images/iconb.png)"
+                 } else {
+                 icon.style.backgroundImage = "url(images/icona.png)"
+                 }*/
             };
             document.onmouseup = function () {
                 document.onmousemove = null;
