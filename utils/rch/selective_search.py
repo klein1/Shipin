@@ -9,6 +9,9 @@ def main():
     # 加载图片数据
     # img = skimage.data.astronaut()
     img = skimage.io.imread('img/girl.jpg')
+    # img = np.array([[[10,20,10],[11,20,10],[10,20,10]],
+    #        [[50,42,42], [125, 50, 60], [255, 255, 255]],
+    #        [[50, 40, 39], [125, 50, 70], [0, 0, 0]]])
 
     '''
     执行selective search，regions格式如下
@@ -59,12 +62,5 @@ def main():
 
     plt.show()
 
-def test():
-
-
-
-    pass
-
 if __name__ == "__main__":
-    # test()
     main()
