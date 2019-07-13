@@ -81,6 +81,10 @@
             }
         });
 
+        $('#comment').on('input',function(){
+            clearTimeout(timer);
+        });
+
         socket.on('message', function (msg) {
             $('body').barrager({'href': '#', 'info': $('<div/>').text(decodeURI(msg.data)).html()});
         });
